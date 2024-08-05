@@ -252,7 +252,6 @@ class Module(ivy.Module):
         mod: Module = self
 
         for item in atoms:
-
             if not hasattr(mod, item):
                 raise AttributeError(
                     mod._get_name() + " has no attribute `" + item + "`"
@@ -591,9 +590,10 @@ class Module(ivy.Module):
                 backward_pre_hooks = self._get_backward_pre_hooks()
 
             if self._backward_hooks or _global_backward_hooks:
-                full_backward_hooks, non_full_backward_hooks = (
-                    self._get_backward_hooks()
-                )
+                (
+                    full_backward_hooks,
+                    non_full_backward_hooks,
+                ) = self._get_backward_hooks()
 
             if _global_forward_pre_hooks or self._forward_pre_hooks:
                 for hook_id, hook in (
@@ -895,7 +895,7 @@ def _addindent(s_, numSpaces):
 
 
 def register_module_backward_hook(
-    hook: Callable[["Module", _grad_t, _grad_t], Union[None, _grad_t]]
+    hook: Callable[["Module", _grad_t, _grad_t], Union[None, _grad_t]],
 ) -> hooks.RemovableHandle:
     global _global_is_full_backward_hook
     if _global_is_full_backward_hook is True:
@@ -912,7 +912,7 @@ def register_module_backward_hook(
 
 
 def register_module_buffer_registration_hook(
-    hook: Callable[..., None]
+    hook: Callable[..., None],
 ) -> hooks.RemovableHandle:
     handle = hooks.RemovableHandle(_global_buffer_registration_hooks)
     _global_buffer_registration_hooks[handle.id] = hook
@@ -932,7 +932,7 @@ def register_module_forward_hook(
 
 
 def register_module_forward_pre_hook(
-    hook: Callable[..., None]
+    hook: Callable[..., None],
 ) -> hooks.RemovableHandle:
     handle = hooks.RemovableHandle(_global_forward_pre_hooks)
     _global_forward_pre_hooks[handle.id] = hook
@@ -940,7 +940,7 @@ def register_module_forward_pre_hook(
 
 
 def register_module_full_backward_hook(
-    hook: Callable[["Module", _grad_t, _grad_t], Union[None, _grad_t]]
+    hook: Callable[["Module", _grad_t, _grad_t], Union[None, _grad_t]],
 ) -> hooks.RemovableHandle:
     global _global_is_full_backward_hook
     if _global_is_full_backward_hook is False:
@@ -957,7 +957,7 @@ def register_module_full_backward_hook(
 
 
 def register_module_full_backward_pre_hook(
-    hook: Callable[["Module", _grad_t], Union[None, _grad_t]]
+    hook: Callable[["Module", _grad_t], Union[None, _grad_t]],
 ) -> hooks.RemovableHandle:
     handle = hooks.RemovableHandle(_global_backward_pre_hooks)
     _global_backward_pre_hooks[handle.id] = hook
@@ -965,7 +965,7 @@ def register_module_full_backward_pre_hook(
 
 
 def register_module_module_registration_hook(
-    hook: Callable[..., None]
+    hook: Callable[..., None],
 ) -> hooks.RemovableHandle:
     handle = hooks.RemovableHandle(_global_module_registration_hooks)
     _global_module_registration_hooks[handle.id] = hook
@@ -973,7 +973,7 @@ def register_module_module_registration_hook(
 
 
 def register_module_parameter_registration_hook(
-    hook: Callable[..., None]
+    hook: Callable[..., None],
 ) -> hooks.RemovableHandle:
     handle = hooks.RemovableHandle(_global_parameter_registration_hooks)
     _global_parameter_registration_hooks[handle.id] = hook
